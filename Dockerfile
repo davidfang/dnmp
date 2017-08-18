@@ -10,9 +10,6 @@ RUN sed -i "s/deb.debian.org/mirrors.aliyun.com/g" /etc/apt/sources.list
 RUN sed -i "s/security.debian.org/mirrors.aliyun.com\/debian-security/g" /etc/apt/sources.list
 
 
-
-
-
 # Update ubuntu
 RUN apt-get update
 
@@ -138,8 +135,15 @@ RUN docker-php-ext-install soap
 #RUN docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu
 #RUN docker-php-ext-install ldap
 
+# Git
+RUN apt-get install -y git
+
+
 # Composer
-#RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
+
+RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
+RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
 
 # XDEBUG
 #RUN yes | pecl channel-update pecl.php.net && pecl install xdebug \
