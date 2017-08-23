@@ -137,13 +137,25 @@ RUN docker-php-ext-install soap
 
 # Git
 RUN apt-get install -y git
-
+RUN git config -g user.name 'davidfang'
+RUN git config -g user.emailt  'fangmw@gmail.com'
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer
 
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 RUN composer global require "fxp/composer-asset-plugin:^1.2.0"
+
+# Redis Client
+ENV PHPREDIS_VERSION 3.1.3
+RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz \
+ && tar xfz /tmp/redis.tar.gz \
+ && rm -r /tmp/redis.tar.gz \
+ && mv phpredis-$PHPREDIS_VERSION /usr/src/php/ext/redis
+#
+# Redis
+RUN docker-php-ext-install redis
+
 
 # XDEBUG
 #RUN yes | pecl channel-update pecl.php.net && pecl install xdebug \
