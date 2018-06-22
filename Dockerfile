@@ -1,4 +1,4 @@
-FROM php:fpm
+FROM php:7.1-fpm
 
 # You may need proxy
 # RUN export http_proxy=192.168.1.10:1080
@@ -15,6 +15,7 @@ RUN sed -i "s/security.debian.org/mirrors.aliyun.com\/debian-security/g" /etc/ap
 
 # Update ubuntu
 RUN apt-get update
+RUN apt-get install -y apt-utils
 
 # mcrypt
 RUN apt-get install -y libmcrypt-dev
